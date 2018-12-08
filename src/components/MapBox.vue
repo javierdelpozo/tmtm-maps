@@ -5,14 +5,15 @@
       <img :src="this.getMapImageUrl">
     </div>
     <!-- <PanControls/> -->
+    <div class="mapbox__geolocation-button" @click="getGeoloaction()">o</div>
     <div class="mapbox__zoom-buttons">
       <div class="mapbox__zoom-buttons__button in" @click="zoomIn()">+</div>
       <div class="mapbox__zoom-buttons__button out" @click="zoomOut()">-</div>
     </div>
 
-    <div class="menu-lateral">
-
-    </div>
+    <aside class="menu-lateral">
+      
+    </aside>
   </div>
 </template>
 
@@ -63,14 +64,16 @@
         console.log(position.coords.latitude, position.coords.longitude);
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+      },
+      getGeoloaction() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else { 
+          console.log("Geolocation is not supported by this browser.");
+        }
       }
     },
     mounted() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition);
-      } else { 
-        console.log("Geolocation is not supported by this browser.");
-      }
       this.getOrigins();
     }
   }
@@ -94,6 +97,22 @@
       img {
         margin-bottom: -6px;
       }
+    }
+
+    &__geolocation-button {
+      position: absolute;
+      background-color: #FFF;
+      bottom: 100px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      user-select: none;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 30px;
+      color: #767676;
+      border: 1px solid #bababa;
+      transition: background-color 0.16s ease-out;
     }
 
     &__zoom-buttons {
