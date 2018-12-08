@@ -57,7 +57,6 @@
         }
       },
       onKeyEvent(event) {
-        console.log(event);
         if (event.keyCode === 87 || event.key === 'w') { // Up
           this.originY = this.originY + 10;
         }
@@ -78,9 +77,9 @@
         this.zoomLevel = this.zoomLevel - 1;
       },
       showPosition(position) {
-        console.log(position.coords.latitude, position.coords.longitude);
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+        console.log('Geo position setted!:', position.coords.latitude, position.coords.longitude);
       },
       getGeoloaction() {
         if (navigator.geolocation) {
