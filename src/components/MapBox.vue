@@ -9,6 +9,10 @@
       <div class="mapbox__zoom-buttons__button in" @click="zoomIn()">+</div>
       <div class="mapbox__zoom-buttons__button out" @click="zoomOut()">-</div>
     </div>
+
+    <div class="menu-lateral">
+
+    </div>
   </div>
 </template>
 
@@ -85,7 +89,7 @@
       display: inline-block;
       height: 100%;
       background-repeat: no-repeat;
-      background-size: 100%;
+      background-size: 100%; 
 
       img {
         margin-bottom: -6px;
@@ -95,22 +99,42 @@
     &__zoom-buttons {
       position: absolute;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-content: center;
-      justify-content: space-between;
-      width: 80px;
-      height: 60px;
+      align-items: center;
+      justify-content: center;
+      //width: 80px;
+      //height: 45px;
       cursor: pointer;
-      background-color: rgba(143, 135, 135, 0.5);
-      bottom: 0px;
+      //background-color: rgba(0, 0, 0, 0.5);
+      bottom: 20px;
       right: 20px;
 
       &__button {
         background-color: #FFF;
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
         user-select: none;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 30px;
+        color: #767676;
+        border: 1px solid #bababa;
+        transition: background-color 0.16s ease-out;
+
+        &:hover {
+          color: #000;
+        }
       }
+    }
+
+    .menu-lateral {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.95);
+      width: 300px;
+      height: 100%;
+      left: 0;
+      bottom: 0;
     }
   }
 </style>
