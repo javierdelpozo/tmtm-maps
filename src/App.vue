@@ -4,12 +4,11 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view class="app-view"/>
+    <RouterView class="app-view" />
   </div>
 </template>
 
 <style lang="scss">
-  @import "@/assets/styles/main.scss";
 
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

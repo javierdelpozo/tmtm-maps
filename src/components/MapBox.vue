@@ -162,10 +162,10 @@
       height: 100%;
       left: 0px;
       bottom: 0;
-      transition: left 0.5 ease-out;
+      transition:all 1s linear;
 
       &--closed {
-        left: -300px;
+        transform: translateX(-300px);
       }
 
       &__toggle-button {
