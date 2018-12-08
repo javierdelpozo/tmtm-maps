@@ -5,8 +5,9 @@
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
-      <img :src="this.getMapImageUrl">
+      <img :src="this.getMapImageUrl" v-on:load="loaded = true">
     </div>
+    <div v-if="!loaded" class="loading"></div>
     <!-- <PanControls/> -->
     <div class="mapbox__geolocation-button" @click="getGeoloaction()">o</div>
     <div class="mapbox__zoom-buttons">
@@ -36,11 +37,13 @@
         zoomLevel: 12,
         tile: null,
         map: null,
-        menuVisible: false
+        menuVisible: false,
+        loaded: false,
       };
     },
     computed: {
       getMapImageUrl() {
+        this.loaded = false;
         return `${this.baseUrl}?key=${this.apiKey}&zoom=${this.zoomLevel}&center=${this.longitude},${this.latitude}&format=jpg&layer=basic&style=main&width=2000&height=2000&view=Unified`;
       }
     },
@@ -50,6 +53,7 @@
     },
     methods: {
       getOrigins() {
+        this.loaded = false;
         const mapImage = document.getElementById('map-container');
         if (mapImage) {
           this.originY = mapImage.clientHeight / 2;
@@ -104,6 +108,19 @@
     height: calc(100vh - 62px);
     background: rgba(255, 255, 255, 0.5);
     cursor: pointer;
+
+    .loading {
+      background-image: url('../assets/images/spinner.svg');
+      background-repeat: no-repeat;
+      background-size: 100px 100px;
+      background-position: center center;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+    }
 
     &__container {
       display: inline-block;
