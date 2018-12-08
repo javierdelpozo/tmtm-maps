@@ -19,20 +19,21 @@
     color: #2c3e50;
 
     #nav {
-      padding: 30px;
+      padding: 20px;
+      background-color: #333;
 
       a {
         font-weight: bold;
-        color: #2c3e50;
+        color: #fff;
 
         &.router-link-exact-active {
-          color: #42b983;
+          color: #fff;
         }
       }
     }
 
     .app-view {
-      padding: 40px;
+      //padding: 40px;
     }
   }
 </style>
