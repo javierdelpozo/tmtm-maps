@@ -63,6 +63,9 @@
         }
       },
       onKeyEvent(event) {
+        if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
+          this.originX = this.originX - 10;
+        }
         if (event.keyCode === 87 || event.key === 'w') { // Up
           this.originY = this.originY + 10;
         }
@@ -71,9 +74,6 @@
         }
         if (event.keyCode === 68 || event.key === 'd') { // Right
           this.originX = this.originX + 10;
-        }
-        if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
-          this.originX = this.originX - 10;
         }
       },
       zoomIn() {
