@@ -5,7 +5,7 @@
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
-      <img :src="this.getMapImageUrl" v-on:load="loaded = true">
+      <img :src="this.getMapImageUrl" v-on:load="onLoad()">
     </div>
     <div v-if="!loaded" class="loading"></div>
     <!-- <PanControls/> -->
@@ -43,7 +43,6 @@
     },
     computed: {
       getMapImageUrl() {
-        this.loaded = false;
         return `${this.baseUrl}?key=${this.apiKey}&zoom=${this.zoomLevel}&center=${this.longitude},${this.latitude}&format=jpg&layer=basic&style=main&width=2000&height=2000&view=Unified`;
       }
     },
@@ -52,6 +51,9 @@
       window.addEventListener('keydown', this.onKeyEvent);
     },
     methods: {
+      onLoad() {
+        this.loaded = true;
+      },
       getOrigins() {
         this.loaded = false;
         const mapImage = document.getElementById('map-container');
@@ -75,15 +77,19 @@
         }
       },
       zoomIn() {
+        this.loaded = false;
         this.zoomLevel = this.zoomLevel + 1;
       },
       zoomOut() {
+        this.loaded = false;
         this.zoomLevel = this.zoomLevel - 1;
       },
       showPosition(position) {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        console.log('Geo position setted!:', position.coords.latitude, position.coords.longitude);
+        if (this.latitude !== position.coords.latitude || this.longitude !== position.coords.longitude) {
+          this.loaded = false;
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        }
       },
       getGeoloaction() {
         if (navigator.geolocation) {
