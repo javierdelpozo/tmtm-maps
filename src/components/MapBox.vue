@@ -100,7 +100,6 @@
       },
       toggleLateralMenu() {
         this.menuVisible = !this.menuVisible;
-        console.log('hey', this.menuVisible);
       }
     }
   }
@@ -162,10 +161,7 @@
       align-content: center;
       align-items: center;
       justify-content: center;
-      //width: 80px;
-      //height: 45px;
       cursor: pointer;
-      //background-color: rgba(0, 0, 0, 0.5);
       bottom: 20px;
       right: 20px;
 
