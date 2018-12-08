@@ -46,6 +46,7 @@
     },
     mounted() {
       this.getOrigins();
+      window.addEventListener('keydown', this.onKeyEvent);
     },
     methods: {
       getOrigins() {
@@ -55,9 +56,20 @@
           this.originX = mapImage.clientWidth / 2;
         }
       },
-      panUp() {
-        console.log('panup');
-        this.originY = this.originY + 10;
+      onKeyEvent(event) {
+        console.log(event);
+        if (event.keyCode === 87 || event.key === 'w') { // Up
+          this.originY = this.originY + 10;
+        }
+        if (event.keyCode === 83 || event.key === 's' && this.originY >= 10) { // Down
+          this.originY = this.originY - 10;
+        }
+        if (event.keyCode === 68 || event.key === 'd') { // Right
+          this.originX = this.originX + 10;
+        }
+        if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
+          this.originX = this.originX - 10;
+        }
       },
       zoomIn() {
         this.zoomLevel = this.zoomLevel + 1;

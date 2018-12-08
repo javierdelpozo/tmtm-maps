@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-on:keyup.space="panUp">
     <div id="nav">
       <RouterLink to="/">
         Home
@@ -12,8 +12,20 @@
   </div>
 </template>
 
-<style lang="scss">
+<script>
+export default {
+  methods: {
+    panUp() {
+      console.log('panup');
+      //this.originY = this.originY + 10;
+    }
+  }
+}
+</script>
 
+
+
+<style lang="scss">
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
