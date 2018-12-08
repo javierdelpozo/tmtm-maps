@@ -11,8 +11,9 @@
       <div class="mapbox__zoom-buttons__button out" @click="zoomOut()">-</div>
     </div>
 
-    <aside class="menu-lateral">
-      
+    <aside class="menu-lateral" :class="{ 'menu-lateral--closed' : menuVisible }">
+      <div class="menu-lateral__toggle-button"
+           @click="toggleLateralMenu()"><</div>
     </aside>
   </div>
 </template>
@@ -35,7 +36,8 @@
         originX: null,
         zoomLevel: 12,
         tile: null,
-        map: null
+        map: null,
+        menuVisible: false
       };
     },
     props: {
@@ -71,6 +73,10 @@
         } else { 
           console.log("Geolocation is not supported by this browser.");
         }
+      },
+      toggleLateralMenu() {
+        this.menuVisible = !this.menuVisible;
+        console.log('hey', this.menuVisible);
       }
     },
     mounted() {
@@ -140,6 +146,7 @@
         color: #767676;
         border: 1px solid #bababa;
         transition: background-color 0.16s ease-out;
+        box-shadow: $shadow-default;
 
         &:hover {
           color: #000;
@@ -149,11 +156,28 @@
 
     .menu-lateral {
       position: absolute;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: #fff;
+      box-shadow: $shadow-default;
       width: 300px;
       height: 100%;
-      left: 0;
+      left: 0px;
       bottom: 0;
+      transition: left 0.5 ease-out;
+
+      &--closed {
+        left: -300px;
+      }
+
+      &__toggle-button {
+        position: relative;
+        left: 100%;
+        top: 10px;
+        height: 50px;
+        width: 25px;
+        background-color: #3CA0E6;
+        box-shadow: $shadow-to-right;
+        color: white;
+      }
     }
   }
 </style>
