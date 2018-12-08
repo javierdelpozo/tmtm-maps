@@ -1,6 +1,6 @@
 <template>
   <div>
-      <MapBox/>
+    <MapBox />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
   import ToolBox from '@/components/ToolBox';
 
   export default {
-    name: 'home',
+    name: 'Home',
     components: {
       MapBox,
       ToolBox

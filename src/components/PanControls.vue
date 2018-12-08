@@ -1,7 +1,5 @@
 <template>
-  <div class="pan-controls">
-
-  </div>
+  <div class="pan-controls" />
 </template>
 
 <script>

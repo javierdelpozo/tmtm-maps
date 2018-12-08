@@ -1,7 +1,10 @@
 <template>
   <div class="mapbox">
-    <div id="map-container" class="mapbox__container" @dblclick="zoomIn()"
-         :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
+    <div id="map-container"
+      class="mapbox__container"
+      @dblclick="zoomIn()"
+      v-on:keyup.space="panUp"
+      :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
       <img :src="this.getMapImageUrl">
     </div>
     <!-- <PanControls/> -->
@@ -12,19 +15,15 @@
     </div>
 
     <aside class="menu-lateral" :class="{ 'menu-lateral--closed' : menuVisible }">
-      <div class="menu-lateral__toggle-button"
-           @click="toggleLateralMenu()"><</div>
+      <div class="menu-lateral__toggle-button" @click="toggleLateralMenu()">e</div>
     </aside>
   </div>
 </template>
 
 <script>
-  import PanControls from '@/components/PanControls';
-
   export default {
     name: 'MapBox',
     components: {
-      PanControls
     },
     data() {
       return {
@@ -40,13 +39,13 @@
         menuVisible: false
       };
     },
-    props: {
-      msg: String
-    },
     computed: {
       getMapImageUrl() {
         return `${this.baseUrl}?key=${this.apiKey}&zoom=${this.zoomLevel}&center=${this.longitude},${this.latitude}&format=jpg&layer=basic&style=main&width=2000&height=2000&view=Unified`;
       }
+    },
+    mounted() {
+      this.getOrigins();
     },
     methods: {
       getOrigins() {
@@ -55,6 +54,10 @@
           this.originY = mapImage.clientHeight / 2;
           this.originX = mapImage.clientWidth / 2;
         }
+      },
+      panUp() {
+        console.log('panup');
+        this.originY = this.originY + 10;
       },
       zoomIn() {
         this.zoomLevel = this.zoomLevel + 1;
@@ -78,9 +81,6 @@
         this.menuVisible = !this.menuVisible;
         console.log('hey', this.menuVisible);
       }
-    },
-    mounted() {
-      this.getOrigins();
     }
   }
 </script>
@@ -162,7 +162,7 @@
       height: 100%;
       left: 0px;
       bottom: 0;
-      transition:all 1s linear;
+      transition: all .2s ease-out;
 
       &--closed {
         transform: translateX(-300px);
