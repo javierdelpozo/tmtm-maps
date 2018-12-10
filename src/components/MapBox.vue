@@ -1,12 +1,24 @@
 <template>
   <div class="mapbox">
+
     <div id="map-container"
       class="mapbox__container"
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
-      <img :src="this.mapImageUrl" v-on:load="isLoaded()">
+
+      <img :src="this.mapImageUrl"
+        v-on:load="isLoaded()"
+        @click="createPoi()">
+
+      <div v-for="poi in pois">
+        <div class="poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+          <div>{{poi.top}}</div>
+        </div>    
+      </div>
+
     </div>
+
     <div v-if="!loaded" class="loading"></div>
 
     <MapControls />
@@ -35,6 +47,7 @@
         originX: null,
         menuVisible: false,
         loaded: false,
+        pois: []
       };
     },
     computed: {
@@ -54,6 +67,17 @@
       },
       isLoaded() {
         this.loaded = true;
+      },
+      createPoi() {
+        console.log(event);
+        this.pois.push({
+          title: 'POI',
+          top: event.clientY,
+          left: event.clientX
+        })
+      },
+      zoomIn() { // Zooms in with double click
+        this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
       getOrigins() {
         const mapImage = document.getElementById('map-container');
@@ -104,6 +128,15 @@
       top: 0;
       bottom: 0;
       background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .poi {
+      position: absolute;
+      height: 50px;
+      width: 100px;
+      background-color: #FFF;
+      top: 0;
+      left: 0;
     }
 
     &__container {
