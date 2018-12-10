@@ -5,7 +5,7 @@
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
-      <img :src="this.getMapImageUrl" v-on:load="onLoad()">
+      <img :src="this.mapImageUrl" v-on:load="isLoaded()">
     </div>
     <div v-if="!loaded" class="loading"></div>
 
@@ -43,16 +43,19 @@
         'longitude',
         'zoomLevel',
       ]),
-      getMapImageUrl() {
+      mapImageUrl() {
+        this.isLoading()
         return `${this.baseUrl}?key=${this.apiKey}&zoom=${this.zoomLevel}&center=${this.longitude},${this.latitude}&format=jpg&layer=basic&style=main&width=2000&height=2000&view=Unified`;
       }
     },
     methods: {
-      onLoad() {
+      isLoading() {
+        this.loaded = false;
+      },
+      isLoaded() {
         this.loaded = true;
       },
       getOrigins() {
-        this.loaded = false;
         const mapImage = document.getElementById('map-container');
         if (mapImage) {
           this.originY = mapImage.clientHeight / 2;
