@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-on:keyup.space="panUp">
+  <div id="app">
     <div id="nav">
       <RouterLink to="/">
         Home
@@ -12,19 +12,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    panUp() {
-      console.log('panup');
-      //this.originY = this.originY + 10;
-    }
-  }
-}
-</script>
-
-
-
 <style lang="scss">
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -34,12 +21,16 @@ export default {
     color: #2c3e50;
 
     #nav {
-      padding: 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-content: center;
+      padding: 20px 40px;
       background-color: #333;
 
       a {
         font-weight: bold;
         color: #fff;
+        margin-right: 30px;
 
         &.router-link-exact-active {
           color: #fff;
@@ -48,7 +39,7 @@ export default {
     }
 
     .app-view {
-      //padding: 40px;
+
     }
   }
 </style>
