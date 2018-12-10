@@ -31,12 +31,12 @@
       },
       showPosition(position) {
         if (this.latitude !== position.coords.latitude || this.longitude !== position.coords.longitude) {
-          this.loaded = false;
           this.$store.dispatch('updateLatitude', position.coords.latitude);
           this.$store.dispatch('updateLongitude', position.coords.longitude);
         }
       },
       getGeoloaction() {
+        this.loaded = false;
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(this.showPosition);
         } else { 
