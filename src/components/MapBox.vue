@@ -33,7 +33,6 @@
         apiKey: 'k75KXr4my1Ttkfh44qW2ep3lGywgjgEG',
         originY: null,
         originX: null,
-        tile: null,
         menuVisible: false,
         loaded: false,
       };
