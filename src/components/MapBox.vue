@@ -1,12 +1,24 @@
 <template>
   <div class="mapbox">
+
     <div id="map-container"
       class="mapbox__container"
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
-      <img :src="this.mapImageUrl" v-on:load="isLoaded()">
+
+      <img id="map" :src="this.mapImageUrl"
+        v-on:load="isLoaded()"
+        @click="createPoi()">
+
+      <div v-for="poi in pois">
+        <div class="poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+          <div>{{poi.top}}</div>
+        </div>    
+      </div>
+
     </div>
+
     <div v-if="!loaded" class="loading"></div>
 
     <MapControls />
@@ -35,6 +47,7 @@
         originX: null,
         menuVisible: false,
         loaded: false,
+        pois: []
       };
     },
     computed: {
@@ -55,16 +68,33 @@
       isLoaded() {
         this.loaded = true;
       },
-      getOrigins() {
-        const mapImage = document.getElementById('map-container');
+      // createPoi() {
+        
+      // },
+      // editPoi() {
+      // },
+      createPoi() { // Creates POI
+        console.log(event);
+        this.pois.push({
+          title: 'POI',
+          top: event.clientY,
+          left: event.clientX
+        })
+      },
+      zoomIn() { // Zooms in with double click
+        this.$store.dispatch('updateZoom', this.zoomLevel + 1);
+      },
+      getOrigins() { // Centers map in screen
+        const mapImage = document.getElementById('map');
+        console.log(mapImage);
         if (mapImage) {
-          this.originY = mapImage.clientHeight / 2;
-          this.originX = mapImage.clientWidth / 2;
+          this.originY = 2000 / 2;
+          this.originX = 2000 / 2;
         }
       },
-      onKeyEvent(event) {
+      onKeyEvent(event) { // Moves/pans map with keys
         if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
-          this.originX = this.originX - 10;
+          this.originX = this.originX + 10;
         }
         if (event.keyCode === 87 || event.key === 'w') { // Up
           this.originY = this.originY + 10;
@@ -73,7 +103,7 @@
           this.originY = this.originY - 10;
         }
         if (event.keyCode === 68 || event.key === 'd') { // Right
-          this.originX = this.originX + 10;
+          this.originX = this.originX - 10;
         }
       }
     },
@@ -104,6 +134,15 @@
       top: 0;
       bottom: 0;
       background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .poi {
+      position: absolute;
+      height: 50px;
+      width: 100px;
+      background-color: #FFF;
+      top: 0;
+      left: 0;
     }
 
     &__container {
