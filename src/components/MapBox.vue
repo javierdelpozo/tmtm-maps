@@ -7,7 +7,7 @@
       v-on:keyup.space="panUp"
       :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
 
-      <img :src="this.mapImageUrl"
+      <img id="map" :src="this.mapImageUrl"
         v-on:load="isLoaded()"
         @click="createPoi()">
 
@@ -68,7 +68,12 @@
       isLoaded() {
         this.loaded = true;
       },
-      createPoi() {
+      // createPoi() {
+        
+      // },
+      // editPoi() {
+      // },
+      createPoi() { // Creates POI
         console.log(event);
         this.pois.push({
           title: 'POI',
@@ -79,16 +84,17 @@
       zoomIn() { // Zooms in with double click
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
-      getOrigins() {
-        const mapImage = document.getElementById('map-container');
+      getOrigins() { // Centers map in screen
+        const mapImage = document.getElementById('map');
+        console.log(mapImage);
         if (mapImage) {
-          this.originY = mapImage.clientHeight / 2;
-          this.originX = mapImage.clientWidth / 2;
+          this.originY = 2000 / 2;
+          this.originX = 2000 / 2;
         }
       },
-      onKeyEvent(event) {
+      onKeyEvent(event) { // Moves/pans map with keys
         if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
-          this.originX = this.originX - 10;
+          this.originX = this.originX + 10;
         }
         if (event.keyCode === 87 || event.key === 'w') { // Up
           this.originY = this.originY + 10;
@@ -97,7 +103,7 @@
           this.originY = this.originY - 10;
         }
         if (event.keyCode === 68 || event.key === 'd') { // Right
-          this.originX = this.originX + 10;
+          this.originX = this.originX - 10;
         }
       }
     },
