@@ -4,8 +4,7 @@
     <div id="map-container"
       class="mapbox__container"
       @dblclick="zoomIn()"
-      v-on:keyup.space="panUp"
-      :style="{'transform': `translate(-${originX}px, -${originY}px)`}">
+      :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
 
       <img id="map" :src="this.mapImageUrl"
         v-on:load="isLoaded()"
@@ -69,7 +68,8 @@
       isLoaded() {
         this.loaded = true;
       },
-      createPoi() { // Creates POI
+      // Creates POI
+      createPoi() {
         let clickEvent = event;
         if (this.timeout === null) {
             this.timeout = window.setTimeout(() => {
@@ -82,21 +82,24 @@
           }, 300);
         }
       },
-      zoomIn() { // Zooms in with double click
+      // Zooms in with double click
+      zoomIn() {
         window.clearTimeout(this.timeout);
         this.timeout = null;    
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
-      getOrigins() { // Centers map in screen
+      // Centers map by dimensions in screen
+      getOrigins() {
         const viewPortWidth = document.documentElement.clientWidth;
         const viewPortHeight = document.getElementById('map-container').clientHeight;
         const mapImage = document.getElementById('map');
         if (mapImage) {
-          this.originY = -(2000 + viewPortHeight) / 2;
-          this.originX = -(2000 + viewPortWidth) / 2;
+          this.originY = -(2000 - viewPortHeight) / 2;
+          this.originX = -(2000 - viewPortWidth) / 2;
         }
       },
-      onKeyEvent(event) { // Moves/pans map with keys
+      // Moves/pans map with keys
+      onKeyEvent(event) {
         if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
           this.originX = this.originX + 10;
         }
