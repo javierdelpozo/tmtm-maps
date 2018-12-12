@@ -11,7 +11,7 @@
         @click="createPoi()">
 
       <div v-for="(poi, index) in pois" :key="index">
-        <div class="poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+        <div class="mapbox__poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
           <div>{{poi.top}}</div>
         </div>    
       </div>
@@ -70,14 +70,15 @@
       },
       // Creates POI
       createPoi() {
+        // Creates poi with single click and avoids to create it with double click
         let clickEvent = event;
         if (this.timeout === null) {
             this.timeout = window.setTimeout(() => {
             this.timeout = null;
             this.pois.push({
               title: 'POI',
-              top: clickEvent.clientY - 62,
-              left: clickEvent.clientX
+              top: clickEvent.offsetY,
+              left: clickEvent.offsetX
             })
           }, 300);
         }
@@ -143,13 +144,12 @@
       background-color: rgba(255, 255, 255, 0.7);
     }
 
-    .poi {
+    &__poi {
       position: absolute;
       height: 50px;
       width: 100px;
       background-color: #FFF;
-      top: 0;
-      left: 0;
+      box-shadow: $shadow-default;
     }
 
     &__container {
