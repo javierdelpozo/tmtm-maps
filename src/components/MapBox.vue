@@ -5,13 +5,13 @@
       class="mapbox__container"
       @dblclick="zoomIn()"
       v-on:keyup.space="panUp"
-      :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
+      :style="{'transform': `translate(-${originX}px, -${originY}px)`}">
 
       <img id="map" :src="this.mapImageUrl"
         v-on:load="isLoaded()"
         @click="createPoi()">
 
-      <div v-for="poi in pois">
+      <div v-for="(poi, index) in pois" :key="index">
         <div class="poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
           <div>{{poi.top}}</div>
         </div>    
@@ -47,7 +47,8 @@
         originX: null,
         menuVisible: false,
         loaded: false,
-        pois: []
+        pois: [],
+        timeout: null
       };
     },
     computed: {
@@ -68,28 +69,31 @@
       isLoaded() {
         this.loaded = true;
       },
-      // createPoi() {
-        
-      // },
-      // editPoi() {
-      // },
       createPoi() { // Creates POI
-        console.log(event);
-        this.pois.push({
-          title: 'POI',
-          top: event.clientY,
-          left: event.clientX
-        })
+        let clickEvent = event;
+        if (this.timeout === null) {
+            this.timeout = window.setTimeout(() => {
+            this.timeout = null;
+            this.pois.push({
+              title: 'POI',
+              top: clickEvent.clientY - 62,
+              left: clickEvent.clientX
+            })
+          }, 300);
+        }
       },
       zoomIn() { // Zooms in with double click
+        window.clearTimeout(this.timeout);
+        this.timeout = null;    
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
       getOrigins() { // Centers map in screen
+        const viewPortWidth = document.documentElement.clientWidth;
+        const viewPortHeight = document.getElementById('map-container').clientHeight;
         const mapImage = document.getElementById('map');
-        console.log(mapImage);
         if (mapImage) {
-          this.originY = 2000 / 2;
-          this.originX = 2000 / 2;
+          this.originY = -(2000 + viewPortHeight) / 2;
+          this.originX = -(2000 + viewPortWidth) / 2;
         }
       },
       onKeyEvent(event) { // Moves/pans map with keys
