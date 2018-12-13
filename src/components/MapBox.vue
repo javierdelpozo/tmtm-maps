@@ -13,8 +13,8 @@
            class="mapbox__poi"
            :id="index"
            :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-          <input ref="poiTitle" type="text" placeholder="Title" v-model="pois[index].title">
-          <textarea ref="poiDescription" placeholder="Description" v-model="pois[index].description"></textarea>
+        <input ref="poiTitle" type="text" placeholder="Title" v-model="pois[index].title">
+        <textarea ref="poiDescription" placeholder="Description" v-model="pois[index].description"></textarea>
       </div>
 
     </div>
@@ -72,7 +72,7 @@
       // Creates POI
       createPoi() {
         // Creates poi with single click and avoids to create it with double click
-        let clickEvent = event;
+        const clickEvent = event;
         if (this.timeout === null) {
             this.timeout = window.setTimeout(() => {
             this.timeout = null;
@@ -93,15 +93,12 @@
       },
       // Centers map by dimensions in screen
       getOrigins() {
-        const viewPortWidth = document.documentElement.clientWidth;
-        const viewPortHeight = this.$refs.mapContainer.clientHeight;
-        
         if (this.$refs.mapImage) {
-          this.originY = -(2000 - viewPortHeight) / 2;
-          this.originX = -(2000 - viewPortWidth) / 2;
+          this.originY = -(2000 - this.$refs.mapContainer.clientHeight) / 2;
+          this.originX = -(2000 - document.documentElement.clientWidth) / 2;
         }
       },
-      // Moves/pans map with keys
+      // Moves/pans map with gaming(arrow) keys
       onKeyEvent() {
         if (event.target.tagName !== document.activeElement.tagName) {
           if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
