@@ -1,5 +1,3 @@
-# tomtom
-
 ## Project setup
 ```
 npm install
