@@ -1,12 +1,12 @@
 <template>
   <div class="mapbox">
 
-    <div id="map-container"
+    <div ref="mapContainer"
       class="mapbox__container"
       @dblclick="zoomIn()"
       :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
 
-      <img id="map" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
+      <img ref="mapImage" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
 
       <div v-for="(poi, index) in pois"
         :key="index"
@@ -95,9 +95,9 @@
       // Centers map by dimensions in screen
       getOrigins() {
         const viewPortWidth = document.documentElement.clientWidth;
-        const viewPortHeight = document.getElementById('map-container').clientHeight;
-        const mapImage = document.getElementById('map');
-        if (mapImage) {
+        const viewPortHeight = this.$refs.mapContainer.clientHeight;
+        
+        if (this.$refs.mapImage) {
           this.originY = -(2000 - viewPortHeight) / 2;
           this.originX = -(2000 - viewPortWidth) / 2;
         }
@@ -119,7 +119,7 @@
           }
         } else {
           if (event.keyCode === 13 || event.key === 'Enter') { // Enter
-            
+            // save on enter
           }          
         }
       }
