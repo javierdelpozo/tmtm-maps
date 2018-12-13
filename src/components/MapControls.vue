@@ -37,7 +37,7 @@
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(this.updateCurrentPosition);
         } else { 
-          console.log("Geolocation is not supported by this browser.");
+          alert("Geolocation is not supported by this browser.");
         }
       }
     }
