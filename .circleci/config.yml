@@ -2,7 +2,18 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: circleci/node:9.10.1
+    parallelism: 1
     steps:
       - checkout
-      - run: echo "A first hello"
+      - restore_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run: yarn build
+      - persist_to_workspace:
+          root: .
+          paths: dist

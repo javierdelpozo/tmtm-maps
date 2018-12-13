@@ -9,7 +9,7 @@ module.exports = {
   },
 
   baseUrl: './',
-  outputDir: 'docs/',
+  outputDir: 'dist',
   assetsDir: 'assets',
   runtimeCompiler: undefined,
   productionSourceMap: undefined,
