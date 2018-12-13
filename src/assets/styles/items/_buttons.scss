@@ -1,0 +1,24 @@
+// Buttons
+.btn {
+  width: 100%;
+  border: 1px solid $grey-base;
+  font-size: 14px;
+
+  &--default {
+    background-color: $button-default;
+    transition: $background-default;
+
+    &:hover {
+      background-color: $button-hover;
+    }
+  }
+
+  &--cancel {
+    background-color: red;
+
+    &:hover {
+      transition: $background-default;
+      background-color: brown;
+    }
+  }
+}

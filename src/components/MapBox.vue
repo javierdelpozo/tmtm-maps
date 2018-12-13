@@ -13,8 +13,10 @@
            class="mapbox__poi"
            :id="index"
            :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-        <input ref="poiTitle" type="text" placeholder="Title" v-model="pois[index].title">
-        <textarea ref="poiDescription" placeholder="Description" v-model="pois[index].description"></textarea>
+        <input type="text" autofocus placeholder="Title" v-model="pois[index].title">
+        <textarea placeholder="Description" v-model="pois[index].description"></textarea>
+        <button class="btn btn--default">Save</button>
+        <button class="btn btn--cancel">Cancel</button>
       </div>
 
     </div>
