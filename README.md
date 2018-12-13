@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/javierdelpozo/tmtm-maps.svg?style=svg)](https://circleci.com/gh/javierdelpozo/tmtm-maps)
+
 ## Project setup
 ```
 npm install
