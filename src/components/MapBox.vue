@@ -2,20 +2,19 @@
   <div class="mapbox">
 
     <div ref="mapContainer"
-      class="mapbox__container"
-      @dblclick="zoomIn()"
-      :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
+         class="mapbox__container"
+         @dblclick="zoomIn()"
+         :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
 
       <img ref="mapImage" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
 
       <div v-for="(poi, index) in pois"
-        :key="index"
-        class="mapbox__poi"
-        :id="index"
-        :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+           :key="index"
+           class="mapbox__poi"
+           :id="index"
+           :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
           <input type="text" placeholder="Title" autofocus v-model="pois[index].title">
-          <textarea placeholder="Description" v-model="pois[index].description">
-          </textarea>
+          <textarea placeholder="Description" v-model="pois[index].description"></textarea>
       </div>
 
     </div>
