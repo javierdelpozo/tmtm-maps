@@ -8,7 +8,7 @@
         About
       </RouterLink>
     </div>
-    <RouterView class="app-view" />
+    <RouterView />
   </div>
 </template>
 
@@ -36,10 +36,6 @@
           color: #fff;
         }
       }
-    }
-
-    .app-view {
-
     }
   }
 </style>

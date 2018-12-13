@@ -6,14 +6,16 @@
       @dblclick="zoomIn()"
       :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
 
-      <img id="map" :src="this.mapImageUrl"
-        v-on:load="isLoaded()"
-        @click="createPoi()">
+      <img id="map" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
 
-      <div v-for="(poi, index) in pois" :key="index">
-        <div class="mapbox__poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-          <div>{{poi.top}}</div>
-        </div>    
+      <div v-for="(poi, index) in pois"
+        :key="index"
+        class="mapbox__poi"
+        :id="index"
+        :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+          <input type="text" placeholder="Title" autofocus v-model="pois[index].title">
+          <textarea placeholder="Description" v-model="pois[index].description">
+          </textarea>
       </div>
 
     </div>
@@ -76,7 +78,8 @@
             this.timeout = window.setTimeout(() => {
             this.timeout = null;
             this.pois.push({
-              title: 'POI',
+              title: null,
+              description: null,
               top: clickEvent.offsetY,
               left: clickEvent.offsetX
             })
@@ -101,17 +104,23 @@
       },
       // Moves/pans map with keys
       onKeyEvent(event) {
-        if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
-          this.originX = this.originX + 10;
-        }
-        if (event.keyCode === 87 || event.key === 'w') { // Up
-          this.originY = this.originY + 10;
-        }
-        if (event.keyCode === 83 || event.key === 's' && this.originY >= 10) { // Down
-          this.originY = this.originY - 10;
-        }
-        if (event.keyCode === 68 || event.key === 'd') { // Right
-          this.originX = this.originX - 10;
+        if (event.target.tagName !== 'INPUT') {
+          if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
+            this.originX = this.originX + 10;
+          }
+          if (event.keyCode === 87 || event.key === 'w') { // Up
+            this.originY = this.originY + 10;
+          }
+          if (event.keyCode === 83 || event.key === 's' && this.originY >= 10) { // Down
+            this.originY = this.originY - 10;
+          }
+          if (event.keyCode === 68 || event.key === 'd') { // Right
+            this.originX = this.originX - 10;
+          }
+        } else {
+          if (event.keyCode === 13 || event.key === 'Enter') { // Enter
+            
+          }          
         }
       }
     },
@@ -146,10 +155,28 @@
 
     &__poi {
       position: absolute;
-      height: 50px;
       width: 100px;
+      padding: 8px;
       background-color: #FFF;
       box-shadow: $shadow-default;
+      cursor: initial;
+      z-index: 1;
+
+      input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid black;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      textarea {
+        width: 100%;
+        margin-top: 8px;
+        border: 1px solid black;
+      }
     }
 
     &__container {
