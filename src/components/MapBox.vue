@@ -127,6 +127,9 @@
     mounted() {
       window.addEventListener('keydown', this.onKeyEvent);
       this.getOrigins();
+    },
+    beforeDestroy() {
+      window.removeEventListener('keydown', this.onKeyEvent);
     }
   }
 </script>

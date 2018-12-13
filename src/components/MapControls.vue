@@ -22,11 +22,9 @@
     },
     methods: {
       zoomIn() {
-        this.loaded = false;
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
       zoomOut() {
-        this.loaded = false;
         this.$store.dispatch('updateZoom', this.zoomLevel - 1);
       },
       showPosition(position) {
@@ -36,7 +34,6 @@
         }
       },
       getGeoloaction() {
-        this.loaded = false;
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(this.showPosition);
         } else { 
