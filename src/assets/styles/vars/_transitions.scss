@@ -1,0 +1,11 @@
+/// Transition times ///
+$half: .1s;
+$default: .2s;
+$double: .4s;
+$triple: .6s;
+$cuadruple: .8s;
+$second: 1s;
+
+/// Transitions ///
+$background-default: background-color $default ease-out;
+$background-double: background-color $double ease-out;

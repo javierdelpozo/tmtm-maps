@@ -1,20 +1,22 @@
 <template>
   <div class="mapbox">
 
-    <div id="map-container"
-      class="mapbox__container"
-      @dblclick="zoomIn()"
-      v-on:keyup.space="panUp"
-      :style="{ 'transform': `translate(-${originX}px, -${originY}px)`}">
+    <div ref="mapContainer"
+         class="mapbox__container"
+         @dblclick="zoomIn()"
+         :style="{ 'transform': `translate(${originX}px, ${originY}px)` }">
 
-      <img id="map" :src="this.mapImageUrl"
-        v-on:load="isLoaded()"
-        @click="createPoi()">
+      <img ref="mapImage" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
 
-      <div v-for="poi in pois">
-        <div class="poi" :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-          <div>{{poi.top}}</div>
-        </div>    
+      <div v-for="(poi, index) in pois"
+           :key="index"
+           class="mapbox__poi"
+           :id="index"
+           :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
+        <input type="text" autofocus placeholder="Title" v-model="pois[index].title">
+        <textarea placeholder="Description" v-model="pois[index].description"></textarea>
+        <button class="btn btn--default">Save</button>
+        <button class="btn btn--cancel">Cancel</button>
       </div>
 
     </div>
@@ -47,7 +49,8 @@
         originX: null,
         menuVisible: false,
         loaded: false,
-        pois: []
+        pois: [],
+        timeout: null
       };
     },
     computed: {
@@ -68,48 +71,63 @@
       isLoaded() {
         this.loaded = true;
       },
-      // createPoi() {
-        
-      // },
-      // editPoi() {
-      // },
-      createPoi() { // Creates POI
-        console.log(event);
-        this.pois.push({
-          title: 'POI',
-          top: event.clientY,
-          left: event.clientX
-        })
+      // Creates POI
+      createPoi() {
+        // Creates poi with single click and avoids to create it with double click
+        const clickEvent = event;
+        if (this.timeout === null) {
+            this.timeout = window.setTimeout(() => {
+            this.timeout = null;
+            this.pois.push({
+              title: null,
+              description: null,
+              top: clickEvent.offsetY,
+              left: clickEvent.offsetX
+            })
+          }, 300);
+        }
       },
-      zoomIn() { // Zooms in with double click
+      // Zooms in with double click
+      zoomIn() {
+        window.clearTimeout(this.timeout);
+        this.timeout = null;    
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
-      getOrigins() { // Centers map in screen
-        const mapImage = document.getElementById('map');
-        console.log(mapImage);
-        if (mapImage) {
-          this.originY = 2000 / 2;
-          this.originX = 2000 / 2;
+      // Centers map by dimensions in screen
+      getOrigins() {
+        if (this.$refs.mapImage) {
+          this.originY = -(2000 - this.$refs.mapContainer.clientHeight) / 2;
+          this.originX = -(2000 - document.documentElement.clientWidth) / 2;
         }
       },
-      onKeyEvent(event) { // Moves/pans map with keys
-        if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
-          this.originX = this.originX + 10;
-        }
-        if (event.keyCode === 87 || event.key === 'w') { // Up
-          this.originY = this.originY + 10;
-        }
-        if (event.keyCode === 83 || event.key === 's' && this.originY >= 10) { // Down
-          this.originY = this.originY - 10;
-        }
-        if (event.keyCode === 68 || event.key === 'd') { // Right
-          this.originX = this.originX - 10;
+      // Moves/pans map with gaming(arrow) keys
+      onKeyEvent() {
+        if (event.target.tagName !== document.activeElement.tagName) {
+          if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
+            this.originX = this.originX + 10;
+          }
+          if (event.keyCode === 87 || event.key === 'w') { // Up
+            this.originY = this.originY + 10;
+          }
+          if (event.keyCode === 83 || event.key === 's' && this.originY >= 10) { // Down
+            this.originY = this.originY - 10;
+          }
+          if (event.keyCode === 68 || event.key === 'd') { // Right
+            this.originX = this.originX - 10;
+          }
+        } else {
+          if (event.keyCode === 13 || event.key === 'Enter') { // Enter
+            // save on enter
+          }          
         }
       }
     },
     mounted() {
       window.addEventListener('keydown', this.onKeyEvent);
       this.getOrigins();
+    },
+    beforeDestroy() {
+      window.removeEventListener('keydown', this.onKeyEvent);
     }
   }
 </script>
@@ -136,13 +154,30 @@
       background-color: rgba(255, 255, 255, 0.7);
     }
 
-    .poi {
+    &__poi {
       position: absolute;
-      height: 50px;
       width: 100px;
+      padding: 8px;
       background-color: #FFF;
-      top: 0;
-      left: 0;
+      box-shadow: $shadow-default;
+      cursor: initial;
+      z-index: 1;
+
+      input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid black;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      textarea {
+        width: 100%;
+        margin-top: 8px;
+        border: 1px solid black;
+      }
     }
 
     &__container {

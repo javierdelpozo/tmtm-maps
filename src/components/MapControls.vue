@@ -1,6 +1,6 @@
 <template>  
   <div class="map-controls">
-    <div class="map-controls__geolocation-button" @click="getGeoloaction()">o</div>
+    <div class="map-controls__geolocation-button" @click="getGeolocation()">o</div>
     <div class="map-controls__zoom-buttons">
       <div class="map-controls__zoom-buttons__button in" @click="zoomIn()">+</div>
       <div class="map-controls__zoom-buttons__button out" @click="zoomOut()">-</div>
@@ -22,25 +22,22 @@
     },
     methods: {
       zoomIn() {
-        this.loaded = false;
         this.$store.dispatch('updateZoom', this.zoomLevel + 1);
       },
       zoomOut() {
-        this.loaded = false;
         this.$store.dispatch('updateZoom', this.zoomLevel - 1);
       },
-      showPosition(position) {
+      updateCurrentPosition(position) {
         if (this.latitude !== position.coords.latitude || this.longitude !== position.coords.longitude) {
           this.$store.dispatch('updateLatitude', position.coords.latitude);
           this.$store.dispatch('updateLongitude', position.coords.longitude);
         }
       },
-      getGeoloaction() {
-        this.loaded = false;
+      getGeolocation() {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(this.showPosition);
+          navigator.geolocation.getCurrentPosition(this.updateCurrentPosition);
         } else { 
-          console.log("Geolocation is not supported by this browser.");
+          alert("Geolocation is not supported by this browser.");
         }
       }
     }
