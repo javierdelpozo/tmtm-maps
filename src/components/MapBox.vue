@@ -13,8 +13,8 @@
            class="mapbox__poi"
            :id="index"
            :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-          <input type="text" placeholder="Title" autofocus v-model="pois[index].title">
-          <textarea placeholder="Description" v-model="pois[index].description"></textarea>
+          <input ref="poiTitle" type="text" placeholder="Title" v-model="pois[index].title">
+          <textarea ref="poiDescription" placeholder="Description" v-model="pois[index].description"></textarea>
       </div>
 
     </div>
@@ -102,8 +102,8 @@
         }
       },
       // Moves/pans map with keys
-      onKeyEvent(event) {
-        if (event.target.tagName !== 'INPUT') {
+      onKeyEvent() {
+        if (event.target.tagName !== document.activeElement.tagName) {
           if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
             this.originX = this.originX + 10;
           }
