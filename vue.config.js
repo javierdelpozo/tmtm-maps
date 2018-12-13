@@ -2,7 +2,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '\n          @import "@/assets/styles/main.scss";\n        '
+        data: `@import "@/assets/styles/main.scss";`
       }
     },
     modules: true
