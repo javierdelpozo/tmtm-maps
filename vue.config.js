@@ -8,8 +8,8 @@ module.exports = {
     modules: true
   },
 
-  baseUrl: undefined,
-  outputDir: 'docs',
+  baseUrl: './',
+  outputDir: 'docs/',
   assetsDir: 'assets',
   runtimeCompiler: undefined,
   productionSourceMap: undefined,
