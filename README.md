@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/javierdelpozo/tmtm-maps.svg?style=svg)](https://circleci.com/gh/javierdelpozo/tmtm-maps)
+<a href="https://circleci.com/gh/javierdelpozo/tmtm-maps"><img src="https://circleci.com/gh/javierdelpozo/tmtm-maps.svg" alt="Build Status"></a>
 
 ## Project setup
 ```
