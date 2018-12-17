@@ -7,10 +7,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-yarn-{{ checksum "yarn.lock" }}
+          key: tmtm-{{ checksum "package-lock.json" }}
       - run: npm i
       - save_cache:
-          key: v1-yarn-{{ checksum "yarn.lock" }}
+          key: tmtm-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run: npm run test:unit
