@@ -8,12 +8,13 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-yarn-{{ checksum "yarn.lock" }}
-      - run: yarn install
+      - run: npm i
       - save_cache:
           key: v1-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
-      - run: yarn build
+      - run: npm run test:unit
+      - run: npm run build
       - persist_to_workspace:
           root: .
           paths: dist
