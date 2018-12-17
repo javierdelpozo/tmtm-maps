@@ -15,8 +15,14 @@
            :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
         <input type="text" autofocus placeholder="Title" v-model="pois[index].title">
         <textarea placeholder="Description" v-model="pois[index].description"></textarea>
-        <button class="btn btn--default">Save</button>
-        <button class="btn btn--cancel" @click="removePoi()">Cancel</button>
+        <div v-if="!pois[index].saved" class="poi-creation">
+          <button class="btn btn--default" @click="pois[index].saved = true">Save</button>
+          <button class="btn btn--cancel" @click="removePoi()">Cancel</button>
+        </div>
+        <div v-if="pois[index].saved" class="poi-editing">
+          <button class="btn btn--default" @click="editPoi()">Edit</button>
+          <button class="btn btn--cancel" @click="removePoi()">Remove</button>
+        </div>
       </div>
 
     </div>
@@ -84,12 +90,21 @@
               title: null,
               description: null,
               top: clickEvent.offsetY,
-              left: clickEvent.offsetX
+              left: clickEvent.offsetX,
+              saved: false
             })
           }, 300);
         }
         console.log(this.pois);
         
+      },
+      // Saves POI
+      savePoi() {
+
+      },
+      // Edits POI
+      editPoi() {
+
       },
       // Removes POI
       removePoi() {
