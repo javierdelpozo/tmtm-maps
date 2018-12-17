@@ -25,7 +25,7 @@ describe('MapBox.vue', () => {
     expect(wrapper.contains('.mapbox')).to.equal(true);
 
     // Map container
-    expect(wrapper.contains('#map-container')).to.equal(true);
+    expect(wrapper.contains('.mapbox__container')).to.equal(true);
   })
 });
 
