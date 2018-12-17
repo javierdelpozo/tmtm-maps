@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9.10.1
+    parallelism: 1
+    steps:
+      - checkout
+      - restore_cache:
+          key: tmtm-{{ checksum "package-lock.json" }}
+      - run: npm i
+      - save_cache:
+          key: tmtm-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run test:unit
+      - run: npm run build
+      - persist_to_workspace:
+          root: .
+          paths: dist
