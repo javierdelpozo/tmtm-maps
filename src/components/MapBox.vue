@@ -16,7 +16,7 @@
         <input type="text" autofocus placeholder="Title" v-model="pois[index].title">
         <textarea placeholder="Description" v-model="pois[index].description"></textarea>
         <button class="btn btn--default">Save</button>
-        <button class="btn btn--cancel">Cancel</button>
+        <button class="btn btn--cancel" @click="removePoi()">Cancel</button>
       </div>
 
     </div>
@@ -65,9 +65,11 @@
       }
     },
     methods: {
+      // Shows loading overlay
       isLoading() {
         this.loaded = false;
       },
+      // Hides loading overlay
       isLoaded() {
         this.loaded = true;
       },
@@ -86,6 +88,12 @@
             })
           }, 300);
         }
+        console.log(this.pois);
+        
+      },
+      // Removes POI
+      removePoi() {
+        this.pois.splice(event.target.parentElement.attributes.id.value, 1);
       },
       // Zooms in with double click
       zoomIn() {
