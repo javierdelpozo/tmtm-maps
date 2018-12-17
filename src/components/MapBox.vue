@@ -102,7 +102,8 @@
       },
       // Moves/pans map with gaming(arrow) keys
       onKeyEvent() {
-        if (event.target.tagName !== document.activeElement.tagName) {
+        const activeElement = document.activeElement.tagName === 'BODY' ? 'move' : document.activeElement.tagName;
+        if (event.target.tagName !== activeElement) {
           if (event.keyCode === 65 || event.key === 'a' && this.originX >= 10) { // Left
             this.originX = this.originX + 10;
           }
