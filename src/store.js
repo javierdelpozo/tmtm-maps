@@ -28,6 +28,7 @@ export default new Vuex.Store({
       state.zoomLevel = value;
     },
     updatePois(state, value) {
+      console.log(state, value);
       state.pois = value;
     }
   },

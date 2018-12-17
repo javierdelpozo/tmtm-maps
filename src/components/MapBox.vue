@@ -8,21 +8,24 @@
 
       <img ref="mapImage" :src="this.mapImageUrl" v-on:load="isLoaded()" @click="createPoi()">
 
-      <div v-for="(poi, index) in pois"
+      <div v-for="(poi, index) in clientPois"
            :key="index"
            class="mapbox__poi"
            :id="index"
-           :style="{'top': `${poi.top}px`, 'left': `${poi.left}px`}">
-        <input type="text" autofocus placeholder="Title" v-model="pois[index].title">
-        <textarea placeholder="Description" v-model="pois[index].description"></textarea>
-        <div v-if="!pois[index].saved" class="poi-creation">
-          <button class="btn btn--default" @click="pois[index].saved = true">Save</button>
-          <button class="btn btn--cancel" @click="removePoi(index)">Cancel</button>
+           :style="{'top': `${poi.top + 15}px`, 'left': `${poi.left - 60}px`}">
+
+        <div v-if="!clientPois[index].saved">
+          <input type="text" autofocus placeholder="Title" v-model="clientPois[index].title">
+          <textarea placeholder="Description" v-model="clientPois[index].description"></textarea>
+          <div v-if="!clientPois[index].saved">
+            <button class="btn btn--default" @click="savePoi(), clientPois[index].saved = true">Save</button>
+            <button class="btn btn--cancel" @click="removePoi(index)">Cancel</button>
+          </div>          
         </div>
 
-        <div v-if="pois[index].saved" class="poi-editing">
-          <button class="btn btn--default" @click="editPoi()">Edit</button>
-          <button class="btn btn--cancel" @click="removePoi(index)">Remove</button>
+        <div v-if="clientPois[index].saved">
+          <h4>{{poi.title}}</h4>
+          <div class="mapbox__poi__description">{{poi.description}}</div>
         </div>
       </div>
 
@@ -56,7 +59,7 @@
         originX: null,
         menuVisible: false,
         loaded: false,
-        pois: [],
+        clientPois: [],
         timeout: null
       };
     },
@@ -87,7 +90,7 @@
         if (this.timeout === null) {
             this.timeout = window.setTimeout(() => {
             this.timeout = null;
-            this.pois.push({
+            this.clientPois.push({
               title: null,
               description: null,
               top: clickEvent.offsetY,
@@ -96,12 +99,10 @@
             })
           }, 300);
         }
-        console.log(this.pois);
-        
       },
       // Saves POI
       savePoi() {
-
+        this.$store.dispatch('updatePois', this.clientPois);
       },
       // Edits POI
       editPoi() {
@@ -109,7 +110,7 @@
       },
       // Removes POI
       removePoi(i) {
-        this.pois.splice(i, 1);
+        this.clientPois.splice(i, 1);
       },
       // Zooms in with double click
       zoomIn() {
@@ -181,12 +182,26 @@
 
     &__poi {
       position: absolute;
-      width: 100px;
+      width: 120px;
       padding: 8px;
       background-color: #FFF;
       box-shadow: $shadow-default;
       cursor: initial;
       z-index: 1;
+
+      &:after {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-bottom-color: #fff;
+        border-width: 12px;
+        margin-left: -12px;
+      }
 
       input {
         width: 100%;
@@ -202,6 +217,11 @@
         width: 100%;
         margin-top: 8px;
         border: 1px solid black;
+      }
+
+      &__description {
+        text-align: initial;
+        font-size: 12px;
       }
     }
 

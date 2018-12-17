@@ -3,16 +3,35 @@
     <div class="menu-lateral__toggle-button" :class="{'menu-lateral__toggle-button--closed' : menuVisible}" @click="toggleLateralMenu()">
       <img src="@/assets/icons/left-chevron.svg">
     </div>
+
+    <div class="menu-lateral__content">
+      <div class="menu-lateral__content__pois-list">
+        <h3>My Pois</h3>
+        <ul v-for="(poi, index) in this.$store.state.pois" :key="index">
+          <li>
+            <h4>{{poi.title}}</h4>
+            {{poi.description}}
+          </li>
+        </ul>
+      </div>
+    </div>
   </aside>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'ToolBox',
     data() {
       return {
         menuVisible: false
       }
+    },
+    computed: {
+      ...mapGetters([
+        'pois'
+      ])
     },
     methods: {
       toggleLateralMenu() {
