@@ -17,11 +17,12 @@
         <textarea placeholder="Description" v-model="pois[index].description"></textarea>
         <div v-if="!pois[index].saved" class="poi-creation">
           <button class="btn btn--default" @click="pois[index].saved = true">Save</button>
-          <button class="btn btn--cancel" @click="removePoi()">Cancel</button>
+          <button class="btn btn--cancel" @click="removePoi(index)">Cancel</button>
         </div>
+
         <div v-if="pois[index].saved" class="poi-editing">
           <button class="btn btn--default" @click="editPoi()">Edit</button>
-          <button class="btn btn--cancel" @click="removePoi()">Remove</button>
+          <button class="btn btn--cancel" @click="removePoi(index)">Remove</button>
         </div>
       </div>
 
@@ -107,8 +108,8 @@
 
       },
       // Removes POI
-      removePoi() {
-        this.pois.splice(event.target.parentElement.attributes.id.value, 1);
+      removePoi(i) {
+        this.pois.splice(i, 1);
       },
       // Zooms in with double click
       zoomIn() {
