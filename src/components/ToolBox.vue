@@ -7,7 +7,7 @@
     <div class="menu-lateral__content">
       <div class="menu-lateral__content__pois-list">
         <h3>My Pois</h3>
-        <ul v-for="(poi, index) in this.$store.state.pois" :key="index">
+        <ul v-for="(poi, index) in pois" :key="index">
           <li>
             <h4>{{poi.title}}</h4>
             {{poi.description}}

@@ -49,7 +49,7 @@
 <script>
   import ToolBox from '@/components/ToolBox';
   import MapControls from '@/components/MapControls';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'MapBox',
@@ -74,6 +74,10 @@
         'latitude',
         'longitude',
         'zoomLevel',
+      ]),
+      ...mapActions([
+        'updatePois',
+        'updateZoom'
       ]),
       mapImageUrl() {
         this.isLoading()
@@ -129,7 +133,7 @@
       zoomIn() {
         window.clearTimeout(this.timeout);
         this.timeout = null;    
-        this.$store.dispatch('updateZoom', this.zoomLevel + 1);
+        this.updateZoom(this.zoomLevel + 1);
       },
       // Centers map by dimensions in screen
       getOrigins() {
