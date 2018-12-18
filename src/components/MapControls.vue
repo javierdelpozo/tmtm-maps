@@ -2,14 +2,14 @@
   <div class="map-controls">
     <div class="map-controls__geolocation-button" @click="getGeolocation()">o</div>
     <div class="map-controls__zoom-buttons">
-      <div class="map-controls__zoom-buttons__button in" @click="zoomIn()">+</div>
-      <div class="map-controls__zoom-buttons__button out" @click="zoomOut()">-</div>
+      <div class="map-controls__zoom-buttons__button in" @click="updateZoom(zoomLevel + 1)">+</div>
+      <div class="map-controls__zoom-buttons__button out" @click="updateZoom(zoomLevel -1)">-</div>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     name: 'MapControls',
@@ -21,16 +21,15 @@
       ])
     },
     methods: {
-      zoomIn() {
-        this.$store.dispatch('updateZoom', this.zoomLevel + 1);
-      },
-      zoomOut() {
-        this.$store.dispatch('updateZoom', this.zoomLevel - 1);
-      },
+      ...mapActions([
+        'updateZoom',
+        'updateLatitude',
+        'updateLongitude'
+      ]),
       updateCurrentPosition(position) {
         if (this.latitude !== position.coords.latitude || this.longitude !== position.coords.longitude) {
-          this.$store.dispatch('updateLatitude', position.coords.latitude);
-          this.$store.dispatch('updateLongitude', position.coords.longitude);
+          this.updateLatitude(position.coords.latitude);
+          this.updateLongitude(position.coords.longitude);
         }
       },
       getGeolocation() {

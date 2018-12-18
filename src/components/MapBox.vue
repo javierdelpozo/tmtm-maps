@@ -12,10 +12,15 @@
            :key="index"
            class="mapbox__poi"
            :id="index"
-           :style="{'top': `${poi.top + 15}px`, 'left': `${poi.left - 60}px`}">
+           :style="{
+             'top': `${poi.top + 15}px`,
+             'left': `${poi.left - 60}px`
+            }">
 
         <div v-if="!clientPois[index].saved">
-          <input type="text" autofocus placeholder="Title" v-model="clientPois[index].title">
+          <input type="text"
+                 autofocus placeholder="Title"
+                 v-model="clientPois[index].title">
           <textarea placeholder="Description" v-model="clientPois[index].description"></textarea>
           <div v-if="!clientPois[index].saved">
             <button class="btn btn--default" @click="savePoi(), clientPois[index].saved = true">Save</button>
@@ -27,6 +32,7 @@
           <h4>{{poi.title}}</h4>
           <div class="mapbox__poi__description">{{poi.description}}</div>
         </div>
+        
       </div>
 
     </div>
@@ -117,6 +123,7 @@
       // Removes POI
       removePoi(id) {
         this.clientPois.splice(id, 1);
+        this.$store.dispatch('updatePois', this.clientPois);
       },
       // Zooms in with double click
       zoomIn() {
