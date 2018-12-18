@@ -19,7 +19,7 @@
           <textarea placeholder="Description" v-model="clientPois[index].description"></textarea>
           <div v-if="!clientPois[index].saved">
             <button class="btn btn--default" @click="savePoi(), clientPois[index].saved = true">Save</button>
-            <button class="btn btn--cancel" @click="removePoi(index)">Cancel</button>
+            <button class="btn btn--cancel" @click="cancelPoi(index)">Cancel</button>
           </div>          
         </div>
 
@@ -101,16 +101,22 @@
         }
       },
       // Saves POI
-      savePoi() {
+      savePoi(id) {
+        // add or remove only item received by param ID not the whole block.
+        // send id and position and change only that object
         this.$store.dispatch('updatePois', this.clientPois);
       },
       // Edits POI
       editPoi() {
 
       },
+      // cancel POI
+      cancelPoi(id) {
+        this.clientPois.splice(id, 1);
+      },
       // Removes POI
-      removePoi(i) {
-        this.clientPois.splice(i, 1);
+      removePoi(id) {
+        this.clientPois.splice(id, 1);
       },
       // Zooms in with double click
       zoomIn() {
